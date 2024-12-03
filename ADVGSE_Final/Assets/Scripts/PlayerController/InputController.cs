@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// After first left or right key press, player is always moving.
+/// This is the current direction player is moving on the x-axis.
+/// </summary>
 public enum DirectionMoving
 {
     NONE,
@@ -11,8 +15,6 @@ public enum DirectionMoving
 
 public class InputController : MonoBehaviour
 {
-    
-
     //transform position has the current orientation of the player
     [SerializeField] Transform orientation;
 
@@ -28,7 +30,6 @@ public class InputController : MonoBehaviour
     [SerializeField] float jumpForce;
     [SerializeField] float jumpHeight = 1f;
     [SerializeField] float jumpCoolDown;
-    [SerializeField] float airMultiplier;
     [SerializeField] float gravity = 9.8f;
     private bool isJumpReady = true;
 
@@ -60,8 +61,15 @@ public class InputController : MonoBehaviour
     private InputAction jump;
 
     [Header("Player Speed by Direction")]
+    //Speed player is moving on x-axis.
     [SerializeField] float sideSpeed;
+    /// <summary>
+    /// Speed player is moving on the z-axis.
+    /// </summary>
     [SerializeField] float forwardSpeed = 0.05f;
+    /// <summary>
+    /// Current direction player is moving towards on x-axis.
+    /// </summary>
     private DirectionMoving currentDirection;
     
 
@@ -72,6 +80,7 @@ public class InputController : MonoBehaviour
         playerControls = new PlayerInput();
         rb = GetComponent<Rigidbody>();
 
+        //cursor is locked during play
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -135,7 +144,7 @@ public class InputController : MonoBehaviour
             sideSpeed = 0f;
         }
 
-        //moves the c
+        //moves the player forward and in the direction of the last left or right button press
         transform.position = new Vector3(transform.position.x + sideSpeed, transform.position.y, transform.position.z + forwardSpeed);
 
     }
@@ -150,6 +159,7 @@ public class InputController : MonoBehaviour
         currentDirection = DirectionMoving.RIGHT;
     }
 
+    //called when the player hits space
     void Jump(InputAction.CallbackContext context)
     {
         if (grounded == false) return;

@@ -36,9 +36,14 @@ public class PlayerStats : MonoBehaviour
         }
     }
 
-    public void PlayerLoseHealth(GameObject obstacle)
+    /// <summary>
+    /// Can be called from other scripts for the player to take damage.
+    /// </summary>
+    /// <param name="damage">Amount subtracted from player health.</param>
+    public void PlayerLoseHealth(int damage)
     {
-        Debug.Log("Player has lost health.");
+        playerHealth -= damage;
+        Debug.Log("Damage Taken: " + damage + "   New Health: " + playerHealth);
     }
 
 
