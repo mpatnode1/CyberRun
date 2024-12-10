@@ -23,7 +23,6 @@ public class InputController : MonoBehaviour
     [SerializeField] LayerMask ground;
     [SerializeField] Transform groundCheck;
     private bool grounded;
-    private bool isOnTurningTile;
 
     //variables used for handling player jump
     [Header("Player Jump")]
@@ -31,7 +30,6 @@ public class InputController : MonoBehaviour
     [SerializeField] float jumpHeight = 1f;
     [SerializeField] float jumpCoolDown;
     [SerializeField] float gravity = 9.8f;
-    private bool isJumpReady = true;
 
     //variables for player shooting
     [Header("Player Shooting")]
@@ -63,10 +61,7 @@ public class InputController : MonoBehaviour
     [Header("Player Speed by Direction")]
     //Speed player is moving on x-axis.
     [SerializeField] float sideSpeed;
-    /// <summary>
-    /// Speed player is moving on the z-axis.
-    /// </summary>
-    [SerializeField] float forwardSpeed = 0.05f;
+
     /// <summary>
     /// Current direction player is moving towards on x-axis.
     /// </summary>
@@ -112,13 +107,10 @@ public class InputController : MonoBehaviour
         jump.Disable();
     }
 
-    private void Update()
+    public void FixedUpdate()
     {
         handleMovement();
-    }
 
-    public void FixedUpdate()
-    {   
         //calculates time since player last shot. 
         laserCooldown -= Time.deltaTime;
 
@@ -145,7 +137,7 @@ public class InputController : MonoBehaviour
         }
 
         //moves the player forward and in the direction of the last left or right button press
-        transform.position = new Vector3(transform.position.x + sideSpeed, transform.position.y, transform.position.z + forwardSpeed);
+        transform.position = new Vector3(transform.position.x + sideSpeed, transform.position.y, transform.position.z);
 
     }
 
@@ -190,7 +182,6 @@ public class InputController : MonoBehaviour
     void Attack(InputAction.CallbackContext context)
     {
         shootLaserGun();
-        Debug.Log("You fired!");
     }
 
     /// <summary>
@@ -209,6 +200,8 @@ public class InputController : MonoBehaviour
         //obtains temp laser obj's rigidbody and applies the force to move it forward
         Rigidbody laserRig = laserObj.GetComponent<Rigidbody>();
         laserRig.AddForce(laserRig.transform.forward * fireSpeed);
+
+        AudioManager.Instance.PlayBulletSound();
 
         //destroys after 5s
         Destroy(laserObj, 5f);

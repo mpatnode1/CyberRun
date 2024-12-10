@@ -4,17 +4,24 @@ public class PlayerLaser : MonoBehaviour
 {
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Enemy")
-        {
-            PlayerStats.Instance.PlayerScore += 1;
-            Debug.Log("You've hit an enemy!");
+        //Gets the BaseEnemy script from the enemy destroyed by player's bullet
+        BaseEnemy tempEnemy = other.GetComponent<BaseEnemy>();
 
-            Destroy(other.gameObject);
-            Destroy(gameObject);
-        }
-        else if (other.gameObject.tag == "Bounds")
+        //base enemy script was found
+        if (tempEnemy != null)
         {
-            Destroy(gameObject);
+            if (other.gameObject.tag == "Enemy")
+            {
+                //adjusts player's score based off enemy's point value
+                PlayerStats.Instance.PlayerScored(tempEnemy.pointsWorth);
+
+                //plays enemy death sound effect
+                AudioManager.Instance.PlayEnemyDeath();
+
+                //destroys bullet and enemy
+                Destroy(other.gameObject);
+                Destroy(gameObject);
+            } 
         }
     }
 }

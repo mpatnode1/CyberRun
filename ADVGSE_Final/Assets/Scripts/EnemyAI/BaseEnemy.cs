@@ -6,49 +6,30 @@ public class BaseEnemy : MonoBehaviour
     [Header("Enemy Stats")]
     [SerializeField] int damagePower;
     [SerializeField] int enemyHealth;
+    [SerializeField] public int pointsWorth;
 
-    [Header("Enemy Gun")]
-    [SerializeField] GameObject ememyBulletPrefab;
-    [SerializeField] Transform enemyBulletSpawnPoint;
-    [SerializeField] bool isEnemyShooter;
-    [SerializeField] float bulletSpeed;
-    [SerializeField] float bulletCooldown;
-    private float bulletTimer;
+    private float speed = 0.02f;
 
-    private void Update()
+    private void FixedUpdate()
     {
-        bulletTimer -= Time.deltaTime;
-
-        if (isEnemyShooter)
-        {
-            //only shoots if enemy bullet cooldown has ended
-            if (bulletTimer > 0) {
-                enemyShoot();
-            }
-        }
+        transform.position += transform.forward * speed * -1;
     }
 
-        //When the player collides with the enemy, they take damage.
-        private void OnCollisionEnter(Collision collision)
+    //When the player collides with the enemy, they take damage.
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Player")
         {
             //uses stats instance to subtract damagePower from player's health
             //passes in damage player takes
             PlayerStats.Instance.PlayerLoseHealth(damagePower);
-        }
 
-        private void enemyShoot()
-        {
-            bulletTimer = bulletCooldown;
+            //plays enemy death sound effect
+            AudioManager.Instance.PlayEnemyDeath();
 
-            //creates a bullet gameobject using the bullet's prefab at the current pos + rot of player
-            GameObject bulletObj = Instantiate(ememyBulletPrefab, enemyBulletSpawnPoint.transform.position, enemyBulletSpawnPoint.transform.rotation) as GameObject;
-
-            //obtains temp bullet obj's rigidbody and applies the force to move it forward
-            Rigidbody bulletRig = bulletObj.GetComponent<Rigidbody>();
-            bulletRig.AddForce(bulletRig.transform.forward * bulletSpeed);
-
-            //destroys after 5s
-            Destroy(bulletObj, 5f);
+            //kills enemy after collision so player doesn't take multiple hits.
+            Destroy(gameObject);
         }
     }
+}
 
