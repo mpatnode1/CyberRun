@@ -5809,7 +5809,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 1115947213}
-  loadGame: {fileID: 0}
+  loadGame: {fileID: 1980795919}
 --- !u!114 &1143208945
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10167,6 +10167,7 @@ GameObject:
   - component: {fileID: 1980795916}
   - component: {fileID: 1980795917}
   - component: {fileID: 1980795918}
+  - component: {fileID: 1980795919}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -10303,6 +10304,18 @@ MonoBehaviour:
   enemyDeathSound: {fileID: 1089579614}
   bulletLaunchSound: {fileID: 2039754390}
   coinCollectSound: {fileID: 618354854}
+--- !u!114 &1980795919
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1980795911}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f60956710865f1c49818f31da011b53f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &2018772930
 Mesh:
   m_ObjectHideFlags: 0
@@ -11783,7 +11796,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5154728130965006577, guid: d430a2597437b974882c08b871ee9aa6, type: 3}
       propertyPath: sideSpeed
-      value: 0.05
+      value: 0.06
       objectReference: {fileID: 0}
     - target: {fileID: 5154728130965006577, guid: d430a2597437b974882c08b871ee9aa6, type: 3}
       propertyPath: groundCheck

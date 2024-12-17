@@ -40,6 +40,6 @@ public class Shooter : MonoBehaviour
         bulletRig.AddForce(bulletRig.transform.forward * -1 * bulletSpeed);
 
         //destroys after 5s
-        Destroy(bulletObj, 5f);
+        Destroy(bulletObj, 8f);
     }
 }
